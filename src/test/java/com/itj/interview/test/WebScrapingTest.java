@@ -12,9 +12,9 @@ import org.testng.Assert;
 import java.io.IOException;
 import java.util.Map;
 
-public class DataScrapedTest {
+public class WebScrapingTest {
 
-    private static final Logger LOGGER = LogManager.getLogger(DataScrapedTest.class);
+    private static final Logger LOGGER = LogManager.getLogger(WebScrapingTest.class);
     private YahooScrapedData yahooScrapedData;
     private GetRestData getRestData;
     private DividendYieldScraped dividendYieldScraped;
@@ -50,16 +50,11 @@ public class DataScrapedTest {
     public void testMarketCapitalization() throws Exception {
         String externalData = getRestData.fetchDataFromFinancialModelingPrep(stockSymbol, "marketCap");
 
-        // Remove "." and "B" and take the first 6 characters
-        String formattedScrapedData = scrapedData.get("Market Capitalization")
-                .replace(".", "")
-                .replace("B", "")
-                .substring(0, 6);
-
-        String formattedAPIData = externalData
-                .replace(".", "")
-                .replace("B", "")
-                .substring(0, 6);
+        // Remove "." and "B" and take the first 6 characters just to compare the numbers
+        String formattedScrapedData = scrapedData.get("Market Capitalization").replace(".", "")
+                .replace("B", "").substring(0, 6);
+        String formattedAPIData = externalData.replace(".", "")
+                .replace("B", "").substring(0, 6);
 
         if (formattedScrapedData.equals(formattedAPIData)) {
             LOGGER.info("\nValidation Successfully!\n");

@@ -12,11 +12,11 @@ import java.util.Map;
 public class YahooScrapedData {
 
     private static final Logger LOGGER = LogManager.getLogger(YahooScrapedData.class);
-    private static final String YAHOO_FINANCE_URL = "https://finance.yahoo.com/quote/TSLA?p=TSLA";
+    private static final String yahooFinanceUrl = "https://finance.yahoo.com/quote/TSLA?p=TSLA";
 
     public Map<String, String> scrapeYahooFinanceData() throws IOException {
         Map<String, String> financialData = new HashMap<>();
-        Document doc = Jsoup.connect(YAHOO_FINANCE_URL).get();
+        Document doc = Jsoup.connect(yahooFinanceUrl).get();
 
         LOGGER.info("----------------Data extracted from Yahoo Finance----------------" + "\n");
 
@@ -46,5 +46,11 @@ public class YahooScrapedData {
         LOGGER.info("e. Earnings per Share (EPS): " + earningsPerShare);
 
         return financialData;
+    }
+
+    public String scrapeDividendYieldWebPage() throws IOException {
+        Document doc = Jsoup.connect(yahooFinanceUrl).get();
+        Elements dividendYieldElement = doc.select("td[data-test='DIVIDEND_AND_YIELD-value']");
+        return dividendYieldElement.first().ownText();
     }
 }
